@@ -35,8 +35,19 @@ options={"PSno":"yes",
 print(options)
 print(AuthorIdentifier)
 
-# Load the data
-json_text = requests.get(inspirehep_profile).json()
+
+try:
+    # Load the data
+    response = requests.get(inspirehep_profile)
+    response.raise_for_status()  # Raise an exception for non-successful status codes
+    json_text = response.json()
+    # Process the JSON data here
+    # ...
+except requests.exceptions.RequestException as e:
+    print("Error occurred while making the API request:", e)
+except ValueError as e:
+    print("Error occurred while parsing the JSON response:", e)
+
 layer1=json_text['hits'] # this is a dictionary
 #type(layer1)
 layer2=layer1['hits'] # this is a list
