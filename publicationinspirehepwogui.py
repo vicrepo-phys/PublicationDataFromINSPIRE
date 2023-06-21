@@ -30,7 +30,7 @@ options={"PSno":"yes",
          "PAuthorList": "yes",
          "Pjournal": "yes",
          "PAbstract":"no",
-         "Pcitation":"yes"}
+         "Pcitation":"no"}
 
 print(options)
 print(AuthorIdentifier)
@@ -48,6 +48,10 @@ except requests.exceptions.RequestException as e:
 except ValueError as e:
     print("Error occurred while parsing the JSON response:", e)
 
+
+
+# Load the data
+#json_text = requests.get(inspirehep_profile).json()
 layer1=json_text['hits'] # this is a dictionary
 #type(layer1)
 layer2=layer1['hits'] # this is a list
@@ -149,7 +153,13 @@ for i in range(npub):
       #print(pubInfo)
       page_start = pubInfo.get('page_start', '')
       page_end = pubInfo.get('page_end', '')
+      page_start = pubInfo.get('page_start', '')
+      page_end = pubInfo.get('page_end', '')
       articleId= pubInfo.get('artid', '')
+      if articleId:
+          pagess=articleId
+      else:
+          pagess=page_start+'-'+page_end
       if options["Pjournal"]=="yes":
         if page_start and page_end:
           print('Published in', pubInfo['journal_title']+' '+pubInfo['journal_volume']
@@ -160,10 +170,8 @@ for i in range(npub):
         elif articleId:
           print('Published in', pubInfo['journal_title']+' '+pubInfo['journal_volume']
             +',',articleId,',', pubInfo['year'],'.' )
-
-
-        f.write("{},{},{},{}\n".format('Published in', pubInfo['journal_title']+' '+pubInfo['journal_volume']
-            +',',pubInfo['year'],'.' ))
+        f.write("{}{}\n".format('Published in :',pubInfo['journal_title']+' '+ pubInfo['journal_volume']+ '(' + str(pubInfo['year']) +')'+' '+pagess +'.' ))
+        #f.write("{},{},{},{},{}\n".format('Published in :', pubInfo['journal_title']+' '+pubInfo['journal_volume']+ pubInfo['year']+''+ str(pagess)))
       if options["PAbstract"]=="yes":
         print('ABSTRACT')
         print(metadata_l['abstracts'][0]['value'])
