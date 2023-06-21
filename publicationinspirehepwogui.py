@@ -153,8 +153,6 @@ for i in range(npub):
       #print(pubInfo)
       page_start = pubInfo.get('page_start', '')
       page_end = pubInfo.get('page_end', '')
-      page_start = pubInfo.get('page_start', '')
-      page_end = pubInfo.get('page_end', '')
       articleId= pubInfo.get('artid', '')
       if articleId:
           pagess=articleId
@@ -181,13 +179,6 @@ for i in range(npub):
       if options["Pcitation"]=="yes":
         print("Total citation count:  ",cCountD)
         f.write("{}{}\n".format('Total citation count:',cCountD))
-
-      page_start = pubInfo.get('page_start', '')
-      page_end = pubInfo.get('page_end', '')
-      if articleId:
-        pagess=articleId
-      else:
-        pagess=page_start+'-'+page_end
 
 
 
